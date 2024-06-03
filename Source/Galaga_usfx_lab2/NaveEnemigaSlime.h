@@ -13,5 +13,11 @@ UCLASS()
 class GALAGA_USFX_LAB2_API ANaveEnemigaSlime : public ANaveEnemiga
 {
 	GENERATED_BODY()
-	
+
+public:
+	ANaveEnemigaSlime();
+
+public:
+	// Called every frame
+	virtual void Tick(float DeltaTime) override;
 };
