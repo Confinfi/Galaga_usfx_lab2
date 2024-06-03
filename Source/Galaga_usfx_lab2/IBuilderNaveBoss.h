@@ -22,4 +22,13 @@ class GALAGA_USFX_LAB2_API IIBuilderNaveBoss
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+
+	virtual void GetArmaNaveBoss() = 0;
+	virtual void GetEscudoNaveBoss() = 0;
+	virtual void GetModuloVidaNaveBoss() = 0;
+	virtual class ANaveBoss* GetNaveBoss() = 0;
+
+	class AArmaNaveBoss* Arma;
+	class AEscudoNaveBoss* Escudo;
+	class AModuloVidaNaveBoss* ModuloVida;
 };

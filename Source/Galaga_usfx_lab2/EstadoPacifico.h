@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "INaveEddyStates.h"
 #include "EstadoPacifico.generated.h"
-
 UCLASS()
-class GALAGA_USFX_LAB2_API AEstadoPacifico : public AActor
+class GALAGA_USFX_LAB2_API AEstadoPacifico : public AActor, public IINaveEddyStates
 {
 	GENERATED_BODY()
 	
@@ -22,5 +22,23 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+protected:
+	UPROPERTY(VisibleAnywhere, Category = "Estado Pacifico")
+	class ANaveEddy* Eddy;
+public:
+
+	void EstablecerNave(class ANaveEddy* _eddy) override;
+	void Mover(float Deltatime) override;
+	FORCEINLINE FString ObtenerEstado() override;
+	void Pacifico() override;
+
+private:
+	void Molesto() override {};
+	void Traicion() override {};
+	void Exterminio() override {};
+	int DireccionMovimientoHorizontal = 1;
+	float MovimientoNaves = 4;
+	float limiteInferiorY = 1600.0f;
+
 
 };

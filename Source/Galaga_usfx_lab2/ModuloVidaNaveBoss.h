@@ -10,7 +10,7 @@ UCLASS()
 class GALAGA_USFX_LAB2_API AModuloVidaNaveBoss : public AActor
 {
 	GENERATED_BODY()
-	
+
 public:	
 	// Sets default values for this actor's properties
 	AModuloVidaNaveBoss();
@@ -22,5 +22,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+protected:
+	UStaticMeshComponent* MeshComponent;
 
+	int Impactosrecibidos;
+public:
+	void ImpactoProyectil();
 };

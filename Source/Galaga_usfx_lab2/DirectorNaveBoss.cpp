@@ -25,3 +25,29 @@ void ADirectorNaveBoss::Tick(float DeltaTime)
 
 }
 
+void ADirectorNaveBoss::ConstruirNave()
+{
+	if (usarBuilder)
+	{
+		usarBuilder->GetArmaNaveBoss();
+		usarBuilder->GetEscudoNaveBoss();
+		usarBuilder->GetModuloVidaNaveBoss();
+	}
+}
+
+void ADirectorNaveBoss::SetBuilder(AActor* Builder)
+{
+	usarBuilder = Cast<IIBuilderNaveBoss>(Builder);
+}
+
+ANaveBoss* ADirectorNaveBoss::GetNaveBoss()
+{
+	if (usarBuilder)
+	{
+	return usarBuilder->GetNaveBoss();
+	}
+	else
+	{
+	return nullptr;
+	}
+}

@@ -4,10 +4,10 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IStrategyPawn.h"
 #include "StrategyMoverFast.generated.h"
-
 UCLASS()
-class GALAGA_USFX_LAB2_API AStrategyMoverFast : public AActor
+class GALAGA_USFX_LAB2_API AStrategyMoverFast : public AActor, public IIStrategyPawn
 {
 	GENERATED_BODY()
 	
@@ -22,5 +22,6 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
+public:
+	virtual void Mover(AGalaga_usfx_lab2Pawn* Pawn, float DeltaTime) override;
 };

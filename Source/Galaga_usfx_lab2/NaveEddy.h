@@ -4,13 +4,16 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "INaveEddyStates.h"
 #include "NaveEddy.generated.h"
-
 UCLASS()
 class GALAGA_USFX_LAB2_API ANaveEddy : public AActor
 {
 	GENERATED_BODY()
 	
+public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Reloj, meta = (AllowPrivateAccess = "true"))
+	UStaticMeshComponent* MallaEddy;
 public:	
 	// Sets default values for this actor's properties
 	ANaveEddy();
@@ -22,5 +25,32 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+public:
+	void RecibirDanio();
+	bool bEstadoMolestoCambiado;
+	int vida;
+	void InicializarEstadosEddy(FString _estados);
+
+	IINaveEddyStates* EstadoPacifico;
+	IINaveEddyStates* EstadoMolesto;
+	IINaveEddyStates* EstadoTraicion;
+	IINaveEddyStates* EstadoExterminio;
+	IINaveEddyStates* Estado;
+
+	FORCEINLINE void EstablecerEstado(IINaveEddyStates* _estado);
+
+	void EddyPacifico();
+	void EddyMolesto();
+	void EddyTraicion();
+	void EddyExterminio();
+
+	FORCEINLINE FString ObtenerEstadoActual();
+
+	FORCEINLINE IINaveEddyStates* ObtenerEstadoPacifico();
+	FORCEINLINE IINaveEddyStates* ObtenerEstadoMolesto();
+	FORCEINLINE IINaveEddyStates* ObtenerEstadoTraicion();
+	FORCEINLINE IINaveEddyStates* ObtenerEstadoExterminio();
+	FORCEINLINE IINaveEddyStates* ObtenerEstado();
 
 };

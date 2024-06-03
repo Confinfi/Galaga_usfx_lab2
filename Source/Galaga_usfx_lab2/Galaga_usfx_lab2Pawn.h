@@ -1,11 +1,9 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "IStrategyPawn.h"
 #include "Galaga_usfx_lab2Pawn.generated.h"
-
 UCLASS(Blueprintable)
 class AGalaga_usfx_lab2Pawn : public APawn
 {
@@ -24,12 +22,15 @@ class AGalaga_usfx_lab2Pawn : public APawn
 	class USpringArmComponent* CameraBoom;
 
 public:
+	IIStrategyPawn* CurrentStrategy;
+	bool bCanMove;
+public:
 	AGalaga_usfx_lab2Pawn();
 
 	/** Offset from the ships location to spawn projectiles */
-	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite )
+	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
 	FVector GunOffset;
-	
+
 	/* How fast the weapon will fire */
 	UPROPERTY(Category = Gameplay, EditAnywhere, BlueprintReadWrite)
 	float FireRate;
@@ -74,5 +75,10 @@ public:
 	FORCEINLINE class UCameraComponent* GetCameraComponent() const { return CameraComponent; }
 	/** Returns CameraBoom subobject **/
 	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+public:
+	void SeleccionarEstrategia1();
+	void SeleccionarEstrategia2();
+	void SeleccionarEstrategia3();
+	void SetStrategy(IIStrategyPawn* _estrategia);
+	void ResetMovementAfterTeleport();
 };
-

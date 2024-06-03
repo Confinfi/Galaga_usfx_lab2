@@ -10,7 +10,10 @@ UCLASS()
 class GALAGA_USFX_LAB2_API AArmaNaveBoss : public AActor
 {
 	GENERATED_BODY()
-	
+
+protected:
+
+	UStaticMeshComponent* MeshComp;
 public:	
 	// Sets default values for this actor's properties
 	AArmaNaveBoss();

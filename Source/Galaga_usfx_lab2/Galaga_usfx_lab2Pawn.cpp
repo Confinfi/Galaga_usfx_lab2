@@ -12,6 +12,10 @@
 #include "Engine/StaticMesh.h"
 #include "Kismet/GameplayStatics.h"
 #include "Sound/SoundBase.h"
+#include "StrategyMoverDerecha.h"
+#include "StrategyMoverIzquierda.h"
+#include "StrategyMoverFast.h"
+#include "IStrategyPawn.h"
 
 const FName AGalaga_usfx_lab2Pawn::MoveForwardBinding("MoveForward");
 const FName AGalaga_usfx_lab2Pawn::MoveRightBinding("MoveRight");
@@ -19,14 +23,14 @@ const FName AGalaga_usfx_lab2Pawn::FireForwardBinding("FireForward");
 const FName AGalaga_usfx_lab2Pawn::FireRightBinding("FireRight");
 
 AGalaga_usfx_lab2Pawn::AGalaga_usfx_lab2Pawn()
-{	
+{
 	static ConstructorHelpers::FObjectFinder<UStaticMesh> ShipMesh(TEXT("/Game/TwinStick/Meshes/TwinStickUFO.TwinStickUFO"));
 	// Create the mesh component
 	ShipMeshComponent = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("ShipMesh"));
 	RootComponent = ShipMeshComponent;
 	ShipMeshComponent->SetCollisionProfileName(UCollisionProfile::Pawn_ProfileName);
 	ShipMeshComponent->SetStaticMesh(ShipMesh.Object);
-	
+
 	// Cache our sound effect
 	static ConstructorHelpers::FObjectFinder<USoundBase> FireAudio(TEXT("/Game/TwinStick/Audio/TwinStickFire.TwinStickFire"));
 	FireSound = FireAudio.Object;
@@ -50,21 +54,43 @@ AGalaga_usfx_lab2Pawn::AGalaga_usfx_lab2Pawn()
 	GunOffset = FVector(90.f, 0.f, 0.f);
 	FireRate = 0.1f;
 	bCanFire = true;
+
+	CurrentStrategy = nullptr;
 }
 
 void AGalaga_usfx_lab2Pawn::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	check(PlayerInputComponent);
 
-	// set up gameplay key bindings
+	// Bind standard movement axes
 	PlayerInputComponent->BindAxis(MoveForwardBinding);
 	PlayerInputComponent->BindAxis(MoveRightBinding);
 	PlayerInputComponent->BindAxis(FireForwardBinding);
 	PlayerInputComponent->BindAxis(FireRightBinding);
+
+	// Bind strategy actions
+	PlayerInputComponent->BindAction("Strategia1", IE_Pressed, this, &AGalaga_usfx_lab2Pawn::SeleccionarEstrategia1);
+	PlayerInputComponent->BindAction("Strategia2", IE_Pressed, this, &AGalaga_usfx_lab2Pawn::SeleccionarEstrategia2);
+	PlayerInputComponent->BindAction("Strategia3", IE_Pressed, this, &AGalaga_usfx_lab2Pawn::SeleccionarEstrategia3);
+
+	// You might also want to add bindings to release the strategies if needed:
+	// PlayerInputComponent->BindAction("Strategia1", IE_Released, this, &AGalaga_usfx_lab2Pawn::DeseleccionarEstrategia1);
+	// PlayerInputComponent->BindAction("Strategia2", IE_Released, this, &AGalaga_usfx_lab2Pawn::DeseleccionarEstrategia2);
+	// PlayerInputComponent->BindAction("Strategia3", IE_Released, this, &AGalaga_usfx_lab2Pawn::DeseleccionarEstrategia3);
 }
 
 void AGalaga_usfx_lab2Pawn::Tick(float DeltaSeconds)
 {
+	if (CurrentStrategy)
+	{
+		CurrentStrategy->Mover(this, DeltaSeconds);
+
+		// Si la estrategia ha sido usada, destrúyela
+		if (CurrentStrategy)
+		{
+			CurrentStrategy = nullptr;
+		}
+	}
 	// Find movement direction
 	const float ForwardValue = GetInputAxisValue(MoveForwardBinding);
 	const float RightValue = GetInputAxisValue(MoveRightBinding);
@@ -81,7 +107,7 @@ void AGalaga_usfx_lab2Pawn::Tick(float DeltaSeconds)
 		const FRotator NewRotation = Movement.Rotation();
 		FHitResult Hit(1.f);
 		RootComponent->MoveComponent(Movement, NewRotation, true, &Hit);
-		
+
 		if (Hit.IsValidBlockingHit())
 		{
 			const FVector Normal2D = Hit.Normal.GetSafeNormal2D();
@@ -89,7 +115,7 @@ void AGalaga_usfx_lab2Pawn::Tick(float DeltaSeconds)
 			RootComponent->MoveComponent(Deflection, NewRotation, true);
 		}
 	}
-	
+
 	// Create fire direction vector
 	const float FireForwardValue = GetInputAxisValue(FireForwardBinding);
 	const float FireRightValue = GetInputAxisValue(FireRightBinding);
@@ -137,3 +163,33 @@ void AGalaga_usfx_lab2Pawn::ShotTimerExpired()
 	bCanFire = true;
 }
 
+void AGalaga_usfx_lab2Pawn::SeleccionarEstrategia1()
+{
+	// Liberar la estrategia actual
+	CurrentStrategy = nullptr;
+
+	// Crear y asignar una nueva estrategia
+	AStrategyMoverDerecha* EstrategiaDerecha = GetWorld()->SpawnActor<AStrategyMoverDerecha>();
+	CurrentStrategy = EstrategiaDerecha;
+}
+
+void AGalaga_usfx_lab2Pawn::SeleccionarEstrategia2()
+{
+	CurrentStrategy = nullptr;
+
+	AStrategyMoverIzquierda* EstrategiaIzquierda = GetWorld()->SpawnActor<AStrategyMoverIzquierda>();
+	CurrentStrategy = EstrategiaIzquierda;
+}
+
+void AGalaga_usfx_lab2Pawn::SeleccionarEstrategia3()
+{
+	CurrentStrategy = nullptr;
+
+	AStrategyMoverFast* EstrategiaFast = GetWorld()->SpawnActor<AStrategyMoverFast>();
+	CurrentStrategy = EstrategiaFast;
+}
+void AGalaga_usfx_lab2Pawn::ResetMovementAfterTeleport()
+{
+	// Reiniciar el movimiento del pawn
+	bCanMove = true;
+}

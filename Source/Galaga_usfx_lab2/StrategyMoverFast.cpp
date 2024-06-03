@@ -2,6 +2,7 @@
 
 
 #include "StrategyMoverFast.h"
+#include "Galaga_usfx_lab2Pawn.h"
 
 // Sets default values
 AStrategyMoverFast::AStrategyMoverFast()
@@ -25,3 +26,15 @@ void AStrategyMoverFast::Tick(float DeltaTime)
 
 }
 
+void AStrategyMoverFast::Mover(AGalaga_usfx_lab2Pawn* Pawn, float DeltaTime)
+{
+	// Verificar si el Pawn es válido
+	if (Pawn)
+	{
+		// Teletransportar el Pawn al borde izquierdo
+		Pawn->SetActorLocation(FVector(-1500.0f, Pawn->GetActorLocation().Y, Pawn->GetActorLocation().Z));
+
+		// Llamar a la función para restablecer el movimiento después del teletransporte
+		Pawn->ResetMovementAfterTeleport();
+	}
+}

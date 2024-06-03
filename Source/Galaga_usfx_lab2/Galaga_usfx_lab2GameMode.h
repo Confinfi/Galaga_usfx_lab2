@@ -13,6 +13,18 @@ class AGalaga_usfx_lab2GameMode : public AGameModeBase
 
 public:
 	AGalaga_usfx_lab2GameMode();
+
+private:
+
+	//class IBuilderNaveNodriza* NaveNodrizaEscudo;
+	UPROPERTY(VisibleAnywhere, Category = "NaveEscudo")
+	class ABuilderNaveBoss* NaveBoss;
+	UPROPERTY(VisibleAnywhere, Category = "Director")
+	class ADirectorNaveBoss* Director;
+public:
+	virtual void BeginPlay() override;
+public:
+	class ANaveEddy* NaveEddy;
 };
 
 

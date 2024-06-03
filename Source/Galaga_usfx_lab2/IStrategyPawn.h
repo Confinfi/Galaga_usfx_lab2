@@ -22,4 +22,5 @@ class GALAGA_USFX_LAB2_API IIStrategyPawn
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual void Mover(class AGalaga_usfx_lab2Pawn* Pawn, float DeltaTime) = 0;
 };

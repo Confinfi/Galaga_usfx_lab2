@@ -6,6 +6,15 @@
 #include "Components/StaticMeshComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "Engine/StaticMesh.h"
+#include "NaveEnemiga.h"
+#include "NaveEddy.h"
+#include "NaveEnemigaCaza.h"
+#include "NaveEnemigaEspia.h"
+#include "NaveEnemigaProton.h"
+#include "NaveEnemigaTransporte.h"
+#include "NaveEnemigaSlime.h"
+#include "EscudoNaveBoss.h"
+#include "ArmaNaveBoss.h"
 
 AGalaga_usfx_lab2Projectile::AGalaga_usfx_lab2Projectile() 
 {
@@ -35,11 +44,17 @@ AGalaga_usfx_lab2Projectile::AGalaga_usfx_lab2Projectile()
 
 void AGalaga_usfx_lab2Projectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != nullptr) && (OtherActor != this) && (OtherComp != nullptr) && OtherComp->IsSimulatingPhysics())
+	// Verificar si OtherActor es una nave enemiga y destruir la nave enemiga
+	ANaveEnemiga* NaveEnemiga = Cast<ANaveEnemiga>(OtherActor);
+	if (NaveEnemiga)
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 20.0f, GetActorLocation());
+		NaveEnemiga->Destroy();
 	}
+	ANaveEddy* NaveEddy = Cast<ANaveEddy>(OtherActor);
+	if (NaveEddy)
+	{
+		NaveEddy->RecibirDanio();
 
+	}
 	Destroy();
 }

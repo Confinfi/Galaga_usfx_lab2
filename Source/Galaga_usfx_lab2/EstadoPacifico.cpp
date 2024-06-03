@@ -2,6 +2,7 @@
 
 
 #include "EstadoPacifico.h"
+#include "NaveEddy.h"
 
 // Sets default values
 AEstadoPacifico::AEstadoPacifico()
@@ -25,3 +26,63 @@ void AEstadoPacifico::Tick(float DeltaTime)
 
 }
 
+void AEstadoPacifico::EstablecerNave(ANaveEddy* _eddy)
+{
+	Eddy = Cast<ANaveEddy>(_eddy);
+}
+
+void AEstadoPacifico::Mover(float Deltatime)
+{
+    if (Eddy)
+    {
+ 
+        FVector PosicionActual = Eddy->GetActorLocation();
+
+   
+        float LimiteDerecho = 1600.0f;
+        float LimiteIzquierdo = -1600.0f;
+
+
+        float VelocidadHorizontal = 1000.0f;
+
+  
+        float DesplazamientoHorizontal = VelocidadHorizontal * Deltatime;
+
+        if (DireccionMovimientoHorizontal == 1) // Movimiento hacia derecha
+        {
+            FVector NuevaPosicion = PosicionActual + FVector(0.0f, DesplazamientoHorizontal, 0.0f);
+            if (NuevaPosicion.Y <= LimiteDerecho)
+            {
+                Eddy->SetActorLocation(NuevaPosicion);
+            }
+            else
+            {
+                DireccionMovimientoHorizontal = -1;
+            }
+        }
+        else // Movimiento hacia izquierda
+        {
+  
+            FVector NuevaPosicion = PosicionActual - FVector(0.0f, DesplazamientoHorizontal, 0.0f);
+            if (NuevaPosicion.Y >= LimiteIzquierdo)
+            {
+                Eddy->SetActorLocation(NuevaPosicion);
+            }
+            else
+            {
+
+                DireccionMovimientoHorizontal = 1;
+            }
+        }
+    }
+}
+
+FString AEstadoPacifico::ObtenerEstado()
+{
+	return "Pacifico";
+}
+
+void AEstadoPacifico::Pacifico()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Eddy esta en estado Pacifico"));
+}
