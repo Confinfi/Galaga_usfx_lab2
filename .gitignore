@@ -1,0 +1,34 @@
+# Visual Studio
+.vscode/
+.vscode/*
+.vs/
+.vs/*
+
+# Unreal Engine
+Binaries/
+DerivedDataCache/
+Intermediate/
+Saved/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build results
+*.log
+*.obj
+*.tmp
+*.o
+*.d
+
+# Other
+*.pdb
+*.idb
+*.ipdb
+*.tlog
+*.log
+*.cache
+*.sdf
+*.opensdf
+*.VC.db
+*.VC.VC.opendb
