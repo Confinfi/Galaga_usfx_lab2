@@ -17,6 +17,7 @@ class GALAGA_USFX_LAB2_API ANaveEnemigaTransporte : public ANaveEnemiga
 public:
 	ANaveEnemigaTransporte();
 
+	FString NombreNave = "Transporte";
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

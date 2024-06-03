@@ -4,8 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "NaveEnemiga.h"
 #include "Fabrica.generated.h"
-
 UCLASS()
 class GALAGA_USFX_LAB2_API AFabrica : public AActor
 {
@@ -14,6 +14,8 @@ class GALAGA_USFX_LAB2_API AFabrica : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AFabrica();
+
+	static ANaveEnemiga* FabricaNaves(FString CrearNave, UWorld* World, FVector SpawnLocacion, FRotator SpawnRotacion);
 
 protected:
 	// Called when the game starts or when spawned

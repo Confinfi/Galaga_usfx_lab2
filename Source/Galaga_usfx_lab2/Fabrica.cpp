@@ -2,6 +2,11 @@
 
 
 #include "Fabrica.h"
+#include "NaveEnemigaCaza.h"
+#include "NaveEnemigaEspia.h"
+#include "NaveEnemigaTransporte.h"
+#include "NaveEnemigaSlime.h"
+#include "NaveEnemigaProton.h"
 
 // Sets default values
 AFabrica::AFabrica()
@@ -23,5 +28,36 @@ void AFabrica::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+ANaveEnemiga* AFabrica::FabricaNaves (FString CrearNave, UWorld* World, FVector SpawnLocacion, FRotator SpawnRotacion)
+{
+	if (CrearNave == "Caza")
+	{
+		ANaveEnemigaCaza* NaveLista= World->SpawnActor<ANaveEnemigaCaza>(SpawnLocacion, SpawnRotacion);
+		return NaveLista;
+	}
+	if (CrearNave == "Espia")
+		{
+		ANaveEnemigaEspia* NaveLista= World->SpawnActor<ANaveEnemigaEspia>(SpawnLocacion, SpawnRotacion);
+			return NaveLista;
+		}
+	if (CrearNave == "Transporte")
+		{
+		ANaveEnemigaTransporte* NaveLista= World->SpawnActor<ANaveEnemigaTransporte>(SpawnLocacion, SpawnRotacion);
+		return NaveLista;
+		}
+	if (CrearNave == "Slime")
+		{
+		ANaveEnemigaSlime* NaveLista= World->SpawnActor<ANaveEnemigaSlime>(SpawnLocacion, SpawnRotacion);
+		return NaveLista;
+		}
+	if (CrearNave == "Proton")
+		{
+		ANaveEnemigaProton* NaveLista= World->SpawnActor<ANaveEnemigaProton>(SpawnLocacion, SpawnRotacion);
+		return NaveLista;
+	}
+
+		return nullptr;
 }
 

@@ -17,6 +17,7 @@ class GALAGA_USFX_LAB2_API ANaveEnemigaCaza : public ANaveEnemiga
 public:
 	ANaveEnemigaCaza();
 
+	FString NombreNave = "Caza";
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

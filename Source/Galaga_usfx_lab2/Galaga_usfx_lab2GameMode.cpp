@@ -8,4 +8,3 @@ AGalaga_usfx_lab2GameMode::AGalaga_usfx_lab2GameMode()
 	// set default pawn class to our character class
 	DefaultPawnClass = AGalaga_usfx_lab2Pawn::StaticClass();
 }
-

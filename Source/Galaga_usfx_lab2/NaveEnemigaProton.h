@@ -17,6 +17,7 @@ class GALAGA_USFX_LAB2_API ANaveEnemigaProton : public ANaveEnemiga
 public:
 	ANaveEnemigaProton();
 
+	FString NombreNave = "Proton";
 public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
