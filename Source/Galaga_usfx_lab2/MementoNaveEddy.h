@@ -4,10 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "IMemento.h"
 #include "MementoNaveEddy.generated.h"
 
 UCLASS()
-class GALAGA_USFX_LAB2_API AMementoNaveEddy : public AActor
+class GALAGA_USFX_LAB2_API AMementoNaveEddy : public AActor, public IIMemento
 {
 	GENERATED_BODY()
 	
@@ -22,5 +23,10 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+public:
+	float vida;
 
+	virtual float Getvida() const override {
+		return vida;
+	}
 };

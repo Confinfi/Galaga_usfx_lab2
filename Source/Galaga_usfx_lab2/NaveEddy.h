@@ -5,9 +5,11 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "INaveEddyStates.h"
+#include "IOriginator.h"
+#include "MementoNaveEddy.h"
 #include "NaveEddy.generated.h"
 UCLASS()
-class GALAGA_USFX_LAB2_API ANaveEddy : public AActor
+class GALAGA_USFX_LAB2_API ANaveEddy : public AActor, public IIOriginator
 {
 	GENERATED_BODY()
 	
@@ -53,4 +55,12 @@ public:
 	FORCEINLINE IINaveEddyStates* ObtenerEstadoExterminio();
 	FORCEINLINE IINaveEddyStates* ObtenerEstado();
 
+public:
+	virtual TScriptInterface<IIMemento> CreateMemento() const override;
+	virtual void RestoreFromMemento(const TScriptInterface<IIMemento>& Memento) override;
+
+private:
+	TArray<TScriptInterface<IIMemento>> StateHistory;
+
+	void SaveState();
 };

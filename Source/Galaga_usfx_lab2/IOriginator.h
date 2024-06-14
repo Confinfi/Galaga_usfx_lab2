@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+#include "IMemento.h"
 #include "IOriginator.generated.h"
 
 // This class does not need to be modified.
@@ -22,4 +23,7 @@ class GALAGA_USFX_LAB2_API IIOriginator
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual TScriptInterface<IIMemento> CreateMemento() const = 0;
+	virtual void RestoreFromMemento(const TScriptInterface<IIMemento>& Memento) = 0;
+
 };

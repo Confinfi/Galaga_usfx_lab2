@@ -154,3 +154,23 @@ FString ANaveEddy::ObtenerEstadoActual()
 		return "Estado no inicializado";
 	}
 }
+
+TScriptInterface<IIMemento> ANaveEddy::CreateMemento() const
+{
+	AMementoNaveEddy* NewMemento = NewObject<AMementoNaveEddy>();
+	NewMemento->vida = vida;
+	return TScriptInterface<IIMemento>(NewMemento);
+}
+
+void ANaveEddy::RestoreFromMemento(const TScriptInterface<IIMemento>& Memento)
+{
+	if (Memento.GetObject())
+	{
+		vida = Memento->Getvida();
+	}
+}
+
+void ANaveEddy::SaveState()
+{
+	StateHistory.Add(CreateMemento());
+}
